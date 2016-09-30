@@ -32,7 +32,7 @@ if (!function_exists("GetSQLValueString")) {
 }
 
 mysql_select_db($database_conn, $conn);
-$query_rsPrase = "SELECT * FROM phrase where isnull(ne3ID) ORDER BY id ASC";
+$query_rsPrase = "SELECT * FROM phrase where cid=2 ORDER BY id ASC";
 $rsPrase = mysql_query($query_rsPrase, $conn) or die(mysql_error());
 $row_rsPrase = mysql_fetch_assoc($rsPrase);
 $totalRows_rsPrase = mysql_num_rows($rsPrase);
@@ -67,7 +67,7 @@ $totalRows_rsPrase = mysql_num_rows($rsPrase);
                 <th>Action</th>
             </tr>
             <?php do {
-                      $query_rsNe3 = sprintf("SELECT * FROM ne3 WHERE eng LIKE %s", GetSQLValueString("%" . $row_rsPrase['eng'] . "%", "text"));
+                      $query_rsNe3 = sprintf("SELECT * FROM ne3 WHERE eng LIKE %s order by id", GetSQLValueString("%" . $row_rsPrase['eng'] . "%", "text"));
                       $rsNe3 = mysql_query($query_rsNe3, $conn) or die(mysql_error());
                       $row_rsNe3 = mysql_fetch_assoc($rsNe3);
                       $totalRows_rsNe3 = mysql_num_rows($rsNe3);

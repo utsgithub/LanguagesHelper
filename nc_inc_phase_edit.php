@@ -1,35 +1,4 @@
 <?php
-if (!function_exists("GetSQLValueString")) {
-    function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
-    {
-        if (PHP_VERSION < 6) {
-            $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
-        }
-
-        $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
-
-        switch ($theType) {
-            case "text":
-                $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-                break;
-            case "long":
-            case "int":
-                $theValue = ($theValue != "") ? intval($theValue) : "NULL";
-                break;
-            case "double":
-                $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
-                break;
-            case "date":
-                $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
-                break;
-            case "defined":
-                $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
-                break;
-        }
-        return $theValue;
-    }
-}
-
 $editFormAction = $_SERVER['PHP_SELF'];
 if (isset($_SERVER['QUERY_STRING'])) {
     $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
@@ -51,11 +20,13 @@ if ((isset($_POST["MM_update"])) && ($_POST["MM_update"] == "form1")) {
     mysql_select_db($database_conn, $conn);
     $Result1 = mysql_query($updateSQL, $conn) or die(mysql_error());
 
-    $updateGoTo = "nc_phase_index.php";
-    if (isset($_SERVER['QUERY_STRING'])) {
-        $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
-        $updateGoTo .= $_SERVER['QUERY_STRING'];
-    }
+    //$updateGoTo = "nc_phase_index.php";
+    //if (isset($_SERVER['QUERY_STRING'])) {
+    //    $updateGoTo .= (strpos($updateGoTo, '?')) ? "&" : "?";
+    //    $updateGoTo .= $_SERVER['QUERY_STRING'];
+    //}
+    //$updateGoTo="nc_phase_edit.php?ID=".($_POST['ID']);
+    $updateGoTo="nc_phase_index.php?filter=danger";
     header(sprintf("Location: %s", $updateGoTo));
 }
 
@@ -68,4 +39,15 @@ $query_Recordset1 = sprintf("SELECT * FROM temp_phase_edit WHERE ID = %s", GetSQ
 $Recordset1 = mysql_query($query_Recordset1, $conn) or die(mysql_error());
 $row_Recordset1 = mysql_fetch_assoc($Recordset1);
 $totalRows_Recordset1 = mysql_num_rows($Recordset1);
+
+//Show the total todo number
+$colname_filter = "where isNull(status)";
+if (isset($_GET['filter'])) {
+    $colname_filter = "";
+}
+mysql_select_db($database_conn, $conn);
+$query_rs = "SELECT * FROM temp_phase_edit ".$colname_filter;
+$rs = mysql_query($query_rs, $conn) or die(mysql_error());
+$row_rs = mysql_fetch_assoc($rs);
+$totalRows_rs = mysql_num_rows($rs);
 ?>

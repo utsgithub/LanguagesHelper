@@ -37,7 +37,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="index.php">Home</a></li>
-            <li><a href="nc_phase_edit.php">Phase Compile</a></li>
+            <li><a href="nc_phase_index.php">Phase Compile</a></li>
            
           </ul>
         </div>

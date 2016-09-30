@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,6 +8,16 @@
     </RootNamespace>
     <OutputType>Library</OutputType>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
+    <Runtime>PHP</Runtime>
+    <RuntimeVersion>7.0</RuntimeVersion>
+    <EnvName>Custom</EnvName>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <PHPDevAutoPort>true</PHPDevAutoPort>
+    <CustomServerUrl>localhost:8080/php_nc3/</CustomServerUrl>
+    <CustomXdebugPort>9000</CustomXdebugPort>
+    <PublishEvent>None</PublishEvent>
+    <DebugMappingMethod>Automatic</DebugMappingMethod>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -84,13 +95,18 @@
     <Compile Include="inc\inc_head.php" />
     <Compile Include="inc\inc_index_cat.php" />
     <Compile Include="inc\inc_index_pro_re.php" />
-    <Compile Include="inc\inc_nav.asp" />
     <Compile Include="inc\inc_nav.php" />
+    <Compile Include="nc_inc_nc4_edit.php" />
+    <Compile Include="nc_inc_phase_edit.php" />
+    <Compile Include="nc_nc4_edit.php" />
+    <Compile Include="nc_nc4_index.php" />
+    <Compile Include="nc_phase_edit.php" />
+    <Compile Include="nc_phase_edit_correct.php" />
+    <Compile Include="nc_phase_index.php" />
+    <Compile Include="nc_phase_search.php" />
     <Compile Include="Templates\template.dwt.php" />
     <Compile Include="_mmServerScripts\MMHTTPDB.php" />
     <Compile Include="_mmServerScripts\mysql.php" />
-    <Compile Include="_notes\index.php.mno" />
-    <Compile Include="_notes\match.php.mno" />
     <Compile Include="index - Copy.php" />
     <Compile Include="index.php" />
     <Compile Include="match.php" />
@@ -112,6 +128,5 @@
     <Folder Include="Templates" />
     <Folder Include="_mmServerScripts\_notes" />
     <Folder Include="_mmServerScripts" />
-    <Folder Include="_notes" />
   </ItemGroup>
 </Project>

@@ -30,15 +30,21 @@ if (!function_exists("GetSQLValueString")) {
         return $theValue;
     }
 }
-$colname_filter = "where isNull(status)";
-if (isset($_GET['filter'])) {
-    $colname_filter = "where status='".$_GET['filter']."'";
+$PID = "-1";
+if (isset($_GET['PID'])) {
+    $PID = $_GET['PID'];
+}
+$colname_Recordset1 = "-1";
+if (isset($_GET['keyword'])) {
+    $colname_Recordset1 = $_GET['keyword'];
 }
 mysql_select_db($database_conn, $conn);
-$query_rs = "SELECT * FROM temp_phase_edit ".$colname_filter;
-$rs = mysql_query($query_rs, $conn) or die(mysql_error());
-$row_rs = mysql_fetch_assoc($rs);
-$totalRows_rs = mysql_num_rows($rs);
+$query_Recordset1 = "SELECT * FROM ne3 WHERE eng LIKE '%".$colname_Recordset1."%'";
+//echo $query_Recordset1;
+//$query_Recordset1 = sprintf("SELECT * FROM ne3 WHERE eng LIKE %s", GetSQLValueString("%" . $colname_Recordset1 . "%", "text"));
+$Recordset1 = mysql_query($query_Recordset1, $conn) or die(mysql_error());
+$row_Recordset1 = mysql_fetch_assoc($Recordset1);
+$totalRows_Recordset1 = mysql_num_rows($Recordset1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +54,7 @@ $totalRows_rs = mysql_num_rows($rs);
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- InstanceBeginEditable name="doctitle" -->
-    <title></title>
+    <title>Languages Helper</title>
     <!-- InstanceEndEditable -->
     <!-- inc_head -->
     <?php include("inc/inc_head.php"); ?>
@@ -60,39 +66,37 @@ $totalRows_rs = mysql_num_rows($rs);
     <?php include("inc/inc_nav.php"); ?>
     <div class="container">
         <!-- InstanceBeginEditable name="EditRegion1" -->
-        <a class="btn btn-primary" href="?">All</a>
-        <a class="btn btn-success" href="?filter=success">Success</a>
-        <a class="btn btn-danger" href="?filter=danger">Danger</a>
-        <a class="btn btn-info" href="?filter=info">Info</a>
-        <a class="btn btn-warning" href="?filter=warning">Warning</a>
-        <div class="alert alert-info mtl">
-            <?php echo $totalRows_rs ?>
-        </div>
         <table class="table table-bordered">
             <tr>
-                <td>ID</td>
-                <td>word_en</td>
-                <td>phase_en</td>
-                <td>phase_cn</td>
+                <td>id</td>
+                <td>category</td>
+                <td>sum</td>
+                <td>eng</td>
+                <td>chi</td>
             </tr>
             <?php do { ?>
-            <tr class="bg-<?php echo $row_rs['status']; ?>">
-                <td nowrap="nowrap">
-                    <?php echo $row_rs['ID']; ?>
+            <tr>
+                <td>
+                    <?php echo $row_Recordset1['id']; ?>
                 </td>
-                <td nowrap="nowrap">
-                    <a href="nc_phase_edit.php?ID=<?php echo $row_rs['ID']; ?>">
-                        <?php echo $row_rs['word_en']; ?>
-                    </a>
+                <td>
+                    <?php echo $row_Recordset1['category']; ?>
                 </td>
-                <td nowrap="nowrap">
-                    <?php echo $row_rs['phase_en']; ?>
+                <td>
+                    <?php echo $row_Recordset1['sum']; ?>
                 </td>
-                <td nowrap="nowrap">
-                    <?php echo $row_rs['phase_cn']; ?>
+                <td>
+                    <h1>
+                        <a href="nc_phase_edit_correct.php?NC3ID=<?php echo $row_Recordset1['id']; ?>&ID=<?php echo $_GET['PID']?>">
+                            <?php echo str_replace($colname_Recordset1,"<kbd>".$colname_Recordset1."</kbd>",$row_Recordset1['eng']); ?>
+                        </a>
+                    </h1>
+                </td>
+                <td>
+                    <?php echo $row_Recordset1['chi']; ?>
                 </td>
             </tr>
-            <?php } while ($row_rs = mysql_fetch_assoc($rs)); ?>
+            <?php } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1)); ?>
         </table>
         <!-- InstanceEndEditable -->
 
@@ -103,5 +107,5 @@ $totalRows_rs = mysql_num_rows($rs);
 <!-- InstanceEnd -->
 </html>
 <?php
-mysql_free_result($rs);
+mysql_free_result($Recordset1);
 ?>
